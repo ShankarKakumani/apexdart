@@ -27,7 +27,7 @@ class _MyAppState extends State<MyApp> {
           appBar: AppBar(
             title: const Text('Apex Dart example app'),
           ),
-          body: const SingleChildScrollView(
+          body: SingleChildScrollView(
             padding: EdgeInsets.all(16),
             child: Column(
               children: [
@@ -50,7 +50,7 @@ class _MyAppState extends State<MyApp> {
           height: 350,
           type: 'line',
           zoom: {
-            enabled: false
+            enabled: true
           },
         },
         dataLabels: {
@@ -176,6 +176,28 @@ class _MyAppState extends State<MyApp> {
           opacity: 1
         }
         }'''),
+                Container(
+                  width: 500,
+                  height: 500,
+                  // padding: EdgeInsets.symmetric(horizontal: 200),
+                  child: ApexDart(options: '''{
+          series: [44, 55, 41, 17, 15],
+          chart: {
+          type: 'donut',
+        },
+        responsive: [{
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 200
+            },
+            legend: {
+              position: 'bottom'
+            }
+          }
+        }]
+        }'''),
+                ),
               ],
             ),
           ),

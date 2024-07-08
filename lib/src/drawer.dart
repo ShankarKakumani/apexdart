@@ -13,7 +13,7 @@ class ApexDart extends StatefulWidget {
     this.controller
   });
 
-  final Map<String, dynamic> options;
+  final String options;
   final ApexController? controller;
 
   @override

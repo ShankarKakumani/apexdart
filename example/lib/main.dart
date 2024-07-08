@@ -27,8 +27,8 @@ class _MyAppState extends State<MyApp> {
           appBar: AppBar(
             title: const Text('Apex Dart example app'),
           ),
-          body: SingleChildScrollView(
-            padding: const EdgeInsets.all(16),
+          body: const SingleChildScrollView(
+            padding: EdgeInsets.all(16),
             child: Column(
               children: [
                 ApexDart(options: '''

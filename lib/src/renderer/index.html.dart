@@ -1,6 +1,3 @@
-
-import 'dart:convert';
-
 import 'package:apex_dart/src/renderer/apex_helpers.js.dart';
 import 'package:apex_dart/src/renderer/apexcharts.css.dart';
 import 'package:apex_dart/src/renderer/apexcharts.js.dart';

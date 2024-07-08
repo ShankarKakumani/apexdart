@@ -19,21 +19,20 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowMaterialGrid: false,
-        theme: ThemeData.dark(useMaterial3: true),
-        home: SafeArea(
-          child: Scaffold(
-              appBar: AppBar(
-                title: const Text('Apex Dart example app'),
-              ),
-              body: SingleChildScrollView(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  children: [
-                    ApexDart(
-                      controller: lineChartController,
-                      options: '''
-                      {
+      debugShowMaterialGrid: false,
+      theme: ThemeData.dark(useMaterial3: true),
+      home: SafeArea(
+        child: Scaffold(
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            title: const Text('Apex Dart example app'),
+          ),
+          body: SingleChildScrollView(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              children: [
+                ApexDart(options: '''
+                    {
           series: [{
             name: "Session Duration",
             data: [45, 52, 38, 24, 33, 26, 21, 20, 6, 8, 15, 10]
@@ -110,12 +109,9 @@ class _MyAppState extends State<MyApp> {
         grid: {
           borderColor: '#f1f1f1',
         }
-        }''',
-                    ),
-                    const ApexDart(
-                      // controller: lineChartController,
-                      options: '''{
-                      series: [{
+        }'''),
+                ApexDart(options: '''{
+          series: [{
           name: 'PRODUCT A',
           data: [44, 55, 41, 67, 22, 43]
         }, {
@@ -179,23 +175,23 @@ class _MyAppState extends State<MyApp> {
         fill: {
           opacity: 1
         }
-        }
-                      ''',
-                    ),
-                  ],
-                ),
-              ),
-              floatingActionButton: ApexChartAware(
-                child: FloatingActionButton(
-                  onPressed: () async {
-                    lineChartController.adjustViewHeight();
+        }'''),
+              ],
+            ),
+          ),
+          floatingActionButton: ApexChartAware(
+            child: FloatingActionButton(
+              onPressed: () async {
+                lineChartController.adjustViewHeight();
 
-                    // lineChartController.downloadSvg();
-                  },
-                  child: const Icon(Icons.add),
-                ),
-              )),
-        ));
+                // lineChartController.downloadSvg();
+              },
+              child: const Icon(Icons.add),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   int _rand([int next = 100]) => Random().nextInt(next);

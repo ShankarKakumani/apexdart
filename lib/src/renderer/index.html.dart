@@ -29,7 +29,7 @@ String render(options) {
         <script>
           window.onload = function () {
             try {
-              window.chart = new ApexCharts(document.querySelector("#chart"), ${jsonEncode(options)});
+              window.chart = new ApexCharts(document.querySelector("#chart"), $options);
               window.chart.render();
             }
             catch (e) {

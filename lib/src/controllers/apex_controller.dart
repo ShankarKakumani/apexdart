@@ -15,6 +15,7 @@ class ApexController extends ChangeNotifier implements ApexControllerAbstract {
   @override
   double get chartHeight => _chartHeight;
 
+  WebViewXController? getController() => _webViewController;
   void init(WebViewXController controller) {
     _webViewController = controller;
     _initialized = true;

@@ -128,6 +128,7 @@ class _MyAppState extends State<MyApp> {
                         margin: const EdgeInsets.symmetric(horizontal: 100),
                         width: double.infinity,
                         child: ApexDart(
+                          controller: ApexController(),
                           width: 800,
                           height: 450,
                           options: '''

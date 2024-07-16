@@ -20,10 +20,9 @@ class _MyAppState extends State<MyApp> {
   final ApexController lineChartController = ApexController();
 
   final Debouncer _debouncer = Debouncer();
+  bool isLoading = true;
 
   bool showOverLayOnGraph = true;
-  bool isAtTop = true;
-  bool isAtBottom = false;
 
   void onOverlayDebounce(bool value) {
     _debouncer.debounce(
@@ -126,9 +125,12 @@ class _MyAppState extends State<MyApp> {
                   Stack(
                     children: [
                       Container(
-                        margin: EdgeInsets.symmetric(horizontal: 100),
-                        height: 400,
-                        child: ApexDart(options: '''
+                        margin: const EdgeInsets.symmetric(horizontal: 100),
+                        width: double.infinity,
+                        child: ApexDart(
+                          width: 800,
+                          height: 450,
+                          options: '''
                     {
           series: [{
             name: "Session Duration",
@@ -206,7 +208,14 @@ class _MyAppState extends State<MyApp> {
         grid: {
           borderColor: '#f1f1f1',
         }
-        }'''),
+        }''',
+                          onPageFinished: (src) async {
+                            await Future.delayed(const Duration(milliseconds: 800));
+                            setState(() {
+                              isLoading = false;
+                            });
+                          },
+                        ),
                       ),
                       Visibility(
                         visible: showOverLayOnGraph,
@@ -222,156 +231,168 @@ class _MyAppState extends State<MyApp> {
                             ),
                           ),
                         ),
+                      ),
+                      Visibility(
+                        visible: isLoading,
+                        child: Positioned.fill(
+                          child: Container(
+                            color: Colors.blue,
+                            child: const Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          ),
+                        ),
                       )
                     ],
                   ),
-                  const SizedBox(height: 50),
-                  Stack(
-                    children: [
-                      Container(
-                        height: 400,
-                        margin: EdgeInsets.symmetric(horizontal: 100),
-                        child: ApexDart(options: '''{
-            series: [{
-            name: 'PRODUCT A',
-            data: [44, 55, 41, 67, 22, 43]
-                    }, {
-            name: 'PRODUCT B',
-            data: [13, 23, 20, 8, 13, 27]
-                    }, {
-            name: 'PRODUCT C',
-            data: [11, 17, 15, 15, 21, 14]
-                    }, {
-            name: 'PRODUCT D',
-            data: [21, 7, 25, 13, 22, 8]
-                    }],
-            chart: {
-            type: 'bar',
-            height: 350,
-            stacked: true,
-            toolbar: {
-              show: true
-            },
-            zoom: {
-              enabled: true
-            }
-                    },
-                    responsive: [{
-            breakpoint: 480,
-            options: {
-              legend: {
-                position: 'bottom',
-                offsetX: -10,
-                offsetY: 0
-              }
-            }
-                    }],
-                    plotOptions: {
-            bar: {
-              horizontal: false,
-              borderRadius: 10,
-              borderRadiusApplication: 'end', // 'around', 'end'
-              borderRadiusWhenStacked: 'last', // 'all', 'last'
-              dataLabels: {
-                total: {
-                  enabled: true,
-                  style: {
-                    fontSize: '13px',
-                    fontWeight: 900
+                        const SizedBox(height: 50),
+                        Stack(
+                          children: [
+                            Container(
+                              height: 400,
+                              width: double.infinity,
+                              margin: const EdgeInsets.symmetric(horizontal: 100),
+                              child: const ApexDart(options: '''{
+                  series: [{
+                  name: 'PRODUCT A',
+                  data: [44, 55, 41, 67, 22, 43]
+                          }, {
+                  name: 'PRODUCT B',
+                  data: [13, 23, 20, 8, 13, 27]
+                          }, {
+                  name: 'PRODUCT C',
+                  data: [11, 17, 15, 15, 21, 14]
+                          }, {
+                  name: 'PRODUCT D',
+                  data: [21, 7, 25, 13, 22, 8]
+                          }],
+                  chart: {
+                  type: 'bar',
+                  height: 350,
+                  stacked: true,
+                  toolbar: {
+                    show: true
+                  },
+                  zoom: {
+                    enabled: true
                   }
-                }
-              }
-            },
-                    },
-                    xaxis: {
-            type: 'datetime',
-            categories: ['01/01/2011 GMT', '01/02/2011 GMT', '01/03/2011 GMT', '01/04/2011 GMT',
-              '01/05/2011 GMT', '01/06/2011 GMT'
-            ],
+                          },
+                          responsive: [{
+                  breakpoint: 480,
+                  options: {
+                    legend: {
+                      position: 'bottom',
+                      offsetX: -10,
+                      offsetY: 0
+                    }
+                  }
+                          }],
+                          plotOptions: {
+                  bar: {
+                    horizontal: false,
+                    borderRadius: 10,
+                    borderRadiusApplication: 'end', // 'around', 'end'
+                    borderRadiusWhenStacked: 'last', // 'all', 'last'
+                    dataLabels: {
+                      total: {
+                        enabled: true,
+                        style: {
+                          fontSize: '13px',
+                          fontWeight: 900
+                        }
+                      }
+                    }
+                  },
+                          },
+                          xaxis: {
+                  type: 'datetime',
+                  categories: ['01/01/2011 GMT', '01/02/2011 GMT', '01/03/2011 GMT', '01/04/2011 GMT',
+                    '01/05/2011 GMT', '01/06/2011 GMT'
+                  ],
+                          },
+                          legend: {
+                  position: 'right',
+                  offsetY: 40
+                          },
+                          fill: {
+                  opacity: 1
+                          }
+                          }'''),
+                            ),
+                            Visibility(
+                              visible: showOverLayOnGraph,
+                              child: PointerInterceptor(
+                                child: InkWell(
+                                  onTap: () {
+                                    updateOverLayState(false);
+                                  },
+                                  child: Container(
+                                    height: 400,
+                                    color: Colors.orange.withOpacity(0.3),
+                                    width: double.infinity,
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                        const SizedBox(height: 50),
+                        Stack(
+                          children: [
+                            Center(
+                              child: SizedBox(
+                                width: 500,
+                                height: 500,
+                                // padding: EdgeInsets.symmetric(horizontal: 200),
+                                child: ApexDart(
+                                  options: '''{
+                  series: [44, 55, 41, 17, 15],
+                  chart: {
+                  type: 'donut',
+                          },
+                          responsive: [{
+                  breakpoint: 480,
+                  options: {
+                    chart: {
+                      width: 200
                     },
                     legend: {
-            position: 'right',
-            offsetY: 40
-                    },
-                    fill: {
-            opacity: 1
+                      position: 'bottom'
                     }
-                    }'''),
-                      ),
-                      Visibility(
-                        visible: showOverLayOnGraph,
-                        child: PointerInterceptor(
-                          child: InkWell(
-                            onTap: () {
-                              updateOverLayState(false);
-                            },
-                            child: Container(
-                              height: 400,
-                              color: Colors.orange.withOpacity(0.3),
-                              width: double.infinity,
+                  }
+                          }]
+                          }''',
+                                ),
+                              ),
                             ),
-                          ),
+                            Visibility(
+                              visible: showOverLayOnGraph,
+                              child: PointerInterceptor(
+                                child: InkWell(
+                                  onTap: () {
+                                    updateOverLayState(false);
+                                  },
+                                  child: Container(
+                                    color: Colors.orange.withOpacity(0.3),
+                                    width: double.infinity,
+                                    height: 500,
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
                         ),
-                      )
-                    ],
-                  ),
-                  const SizedBox(height: 50),
-                  Stack(
-                    children: [
-                      const Center(
-                        child: SizedBox(
-                          width: 500,
-                          height: 500,
-                          // padding: EdgeInsets.symmetric(horizontal: 200),
-                          child: ApexDart(options: '''{
-            series: [44, 55, 41, 17, 15],
-            chart: {
-            type: 'donut',
-                    },
-                    responsive: [{
-            breakpoint: 480,
-            options: {
-              chart: {
-                width: 200
-              },
-              legend: {
-                position: 'bottom'
-              }
-            }
-                    }]
-                    }'''),
-                        ),
-                      ),
-                      Visibility(
-                        visible: showOverLayOnGraph,
-                        child: PointerInterceptor(
-                          child: InkWell(
-                            onTap: () {
-                              updateOverLayState(false);
-                            },
-                            child: Container(
-                              color: Colors.orange.withOpacity(0.3),
-                              width: double.infinity,
-                              height: 500,
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
                 ],
               ),
             ),
           ),
-          floatingActionButton: ApexChartAware(
-            child: FloatingActionButton(
-              onPressed: () async {
-                lineChartController.adjustViewHeight();
+          floatingActionButton: FloatingActionButton(
+            onPressed: () async {
+              lineChartController.adjustViewHeight();
 
-                // lineChartController.downloadSvg();
-              },
-              child: const Icon(Icons.add),
-            ),
+              // lineChartController.downloadSvg();
+            },
+            child: const Icon(Icons.add),
           ),
         ),
       ),

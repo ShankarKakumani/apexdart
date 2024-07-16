@@ -19,6 +19,7 @@ dependencies:
     git:
       url: https://github.com/warioddly/crossview
       ref: main
+  flutter_debouncer: ^2.0.0
 
 dependency_overrides:
   pointer_interceptor: 0.10.1+1

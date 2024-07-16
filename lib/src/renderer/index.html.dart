@@ -35,7 +35,66 @@ String render(options) {
               document.getElementById("error_message").textContent = "Error Message: " + e.message;
             }
           }
+          
+          
+          let lastScrollTop = 0;
+          let scrollTimeout;
+
+          function debounceScrollEnd() {
+            if (scrollTimeout) {
+              clearTimeout(scrollTimeout);
+            }
+            scrollTimeout = setTimeout(() => {
+              parent.postMessage({
+                type: 'scroll_end',
+              }, '*');
+            }, 200); // Adjust debounce delay as needed
+          }
+
+          
+          // Add scroll event listener and postMessage
+          window.addEventListener('scroll', function() {
+            const scrollPosition = window.scrollY;
+
+            // Detect scroll direction
+            const scrollDirection = scrollPosition > lastScrollTop ? 'down' : 'up';
+            lastScrollTop = scrollPosition <= 0 ? 0 : scrollPosition; // For Mobile or negative scrolling
+            
+            parent.postMessage({
+              type: 'scroll_direction',
+              direction: scrollDirection,
+            }, '*');
+            
+            parent.postMessage({
+              type: 'scroll_start',
+            }, '*');
+            
+            debounceScrollEnd();
+          });
+
+          // Detect when the user is trying to scroll beyond the top or bottom
+          window.addEventListener('wheel', function(event) {
+            const scrollPosition = window.scrollY;
+            const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+
+            // Check if the user is trying to scroll beyond the top
+            if (event.deltaY < 0 && scrollPosition === 0) {
+              parent.postMessage({
+                type: 'scroll_top_attempt',
+              }, '*');
+            }
+
+            // Check if the user is trying to scroll beyond the bottom
+            if (event.deltaY > 0 && scrollPosition >= maxScroll) {
+              parent.postMessage({
+                type: 'scroll_bottom_attempt',
+              }, '*');
+            }
+          });
+               
         </script>
+        
+        
       </body>
     </html>
   """;

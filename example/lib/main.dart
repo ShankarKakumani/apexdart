@@ -43,7 +43,6 @@ class _MyAppState extends State<MyApp> {
   onStartScroll() async {
     print("Flutter Scroll Start");
     updateOverLayState(true);
-    onOverlayDebounce(false);
   }
 
   onUpdateScroll() {
@@ -212,10 +211,15 @@ class _MyAppState extends State<MyApp> {
                       Visibility(
                         visible: showOverLayOnGraph,
                         child: PointerInterceptor(
-                          child: Container(
-                            color: Colors.orange.withOpacity(0.3),
-                            width: double.infinity,
-                            height: 400,
+                          child: InkWell(
+                            onTap: () {
+                              updateOverLayState(false);
+                            },
+                            child: Container(
+                              color: Colors.orange.withOpacity(0.3),
+                              width: double.infinity,
+                              height: 400,
+                            ),
                           ),
                         ),
                       )
@@ -297,10 +301,15 @@ class _MyAppState extends State<MyApp> {
                       Visibility(
                         visible: showOverLayOnGraph,
                         child: PointerInterceptor(
-                          child: Container(
-                            height: 400,
-                            color: Colors.orange.withOpacity(0.3),
-                            width: double.infinity,
+                          child: InkWell(
+                            onTap: () {
+                              updateOverLayState(false);
+                            },
+                            child: Container(
+                              height: 400,
+                              color: Colors.orange.withOpacity(0.3),
+                              width: double.infinity,
+                            ),
                           ),
                         ),
                       )
@@ -336,10 +345,15 @@ class _MyAppState extends State<MyApp> {
                       Visibility(
                         visible: showOverLayOnGraph,
                         child: PointerInterceptor(
-                          child: Container(
-                            color: Colors.orange.withOpacity(0.3),
-                            width: double.infinity,
-                            height: 500,
+                          child: InkWell(
+                            onTap: () {
+                              updateOverLayState(false);
+                            },
+                            child: Container(
+                              color: Colors.orange.withOpacity(0.3),
+                              width: double.infinity,
+                              height: 500,
+                            ),
                           ),
                         ),
                       )

@@ -41,16 +41,16 @@ class _MyAppState extends State<MyApp> {
   }
 
   onStartScroll() async {
-    print("Flutter Scroll Start");
+    print("${DateTime.now()} Flutter Scroll Start");
     updateOverLayState(true);
   }
 
   onUpdateScroll() {
-    print("Flutter Scroll Update");
+    print("${DateTime.now()} Flutter Scroll Update");
   }
 
   onEndScroll() async {
-    print("Flutter Scroll End");
+    print("${DateTime.now()} Flutter Scroll End");
     onOverlayDebounce(false);
   }
 
